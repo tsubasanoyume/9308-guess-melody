@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Лена Лебедева](https://up.htmlacademy.ru/ecmascript/3/user/9308).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Лепёшкин](https://up.htmlacademy.ru/ecmascript/3/user/144641).
 
 ---
 
