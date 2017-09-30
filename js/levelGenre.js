@@ -82,7 +82,7 @@ const lvlGenreTemplate = `<section class="main main--level main--level-genre">
           <label class="genre-answer-check" for="a-4"></label>
         </div>
 
-        <button class="genre-answer-send" type="submit" disabled>Ответить</button>
+        <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
     </div>
   </section>`;
@@ -91,15 +91,22 @@ const lvlGenreScreen = setTemplateToNode(lvlGenreTemplate);
 
 const checkboxesAnswers = lvlGenreScreen.querySelectorAll(`input[name=answer]`);
 const sendButton = lvlGenreScreen.querySelector(`.genre-answer-send`);
+const answersContainer = lvlGenreScreen.querySelector(`.genre`);
 const screenResultArray = [resultWinScreen, resultFailAttemptScreen, resultFailTimeScreen];
 
-[...checkboxesAnswers].forEach((item) => {
-  item.addEventListener(`change`, (e) => {
-    e.preventDefault();
-    if (item.checked && sendButton.disabled) {
-      sendButton.disabled = false;
+sendButton.disabled = true;
+
+answersContainer.addEventListener(`click`, () => {
+  const answersArr = [];
+
+  [...checkboxesAnswers].forEach((item) => {
+    if (item.checked) {
+      answersArr.push(item);
     }
   });
+
+  sendButton.disabled = !(answersArr.length > 0);
+
 });
 
 sendButton.addEventListener(`click`, (e) => {

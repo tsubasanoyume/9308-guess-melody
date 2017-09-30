@@ -1,8 +1,8 @@
 function setTemplateToNode(template) {
-  const nodeToSet = document.createElement(`template`);
+  const nodeToSet = document.createElement(`div`);
   nodeToSet.innerHTML = template;
 
-  return nodeToSet.content;
+  return nodeToSet.querySelector(`section.main`);
 }
 
 export default setTemplateToNode;
