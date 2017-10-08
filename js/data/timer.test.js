@@ -1,17 +1,5 @@
 import assert from 'assert';
-
-const getTimer = (value) => {
-  return {
-    val: value,
-    tick() {
-      if (value > 0) {
-        return getTimer(value - 1);
-      } else {
-        return false;
-      }
-    }
-  };
-};
+import getTimer from '../getTimer.js';
 
 describe(`Timer tests`, () => {
   it(`should return less on one number`, () => {
