@@ -19,7 +19,7 @@ describe(`Get Result text tests`, () => {
       assert.equal(`Вы заняли 2-ое место из 5 игроков. Это лучше чем у 60% игроков`, getResultText([20, 2, 14, 3], {points: 18}));
     });
     it(`should return winner text on third place in stats`, () => {
-      assert.equal(`Вы заняли 3-ое место из 5 игроков. Это лучше чем у 40% игроков`, getResultText([20, 2, 18, 3], {points: 14}));
+      assert.equal(`Вы заняли 3-ье место из 5 игроков. Это лучше чем у 40% игроков`, getResultText([20, 2, 18, 3], {points: 14}));
     });
     it(`should return winner text on forth place in stats`, () => {
       assert.equal(`Вы заняли 4-ое место из 5 игроков. Это лучше чем у 20% игроков`, getResultText([20, 2, 18, 10], {points: 5}));
@@ -28,7 +28,7 @@ describe(`Get Result text tests`, () => {
       assert.equal(`Вы заняли 5-ое место из 5 игроков. Это лучше чем у 0% игроков`, getResultText([20, 5, 18, 10], {points: 2}));
     });
     it(`should return winner text on first place in stats`, () => {
-      assert.equal(`Вы заняли 1-ое место из 1 игроков. Это лучше чем у 100% игроков`, getResultText([], {points: 2}));
+      assert.equal(`Вы заняли 1-ое место из 1 игрока. Это лучше чем у 100% игроков`, getResultText([], {points: 2}));
     });
   });
 });

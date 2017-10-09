@@ -1,9 +1,9 @@
-const getTimer = (value) => {
+const getTimer = (val) => {
   return {
-    val: value,
+    value: val,
     tick() {
-      if (value > 0) {
-        return getTimer(value - 1);
+      if (this.value > 0) {
+        return getTimer(--this.value);
       } else {
         return false;
       }
