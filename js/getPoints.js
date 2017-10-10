@@ -1,3 +1,5 @@
+const MAX_LIVES = 3;
+
 const getPoints = (answersArray, lives) => {
   const answers = answersArray.slice();
   let points = 0;
@@ -10,8 +12,8 @@ const getPoints = (answersArray, lives) => {
       }
     }
 
-    if (lives >= 0 && lives < 3) {
-      points -= (3 - lives) * 2;
+    if (lives >= 0 && lives < MAX_LIVES) {
+      points -= (MAX_LIVES - lives) * 2;
     }
 
     if (lives < 0) {
