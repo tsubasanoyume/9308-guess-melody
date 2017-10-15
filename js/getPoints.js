@@ -1,4 +1,4 @@
-const MAX_LIVES = 3;
+import {MAX_LIVES} from './data/Constants.js';
 
 const getPoints = (answersArray, lives) => {
   const answers = answersArray.slice();

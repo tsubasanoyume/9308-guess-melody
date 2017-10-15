@@ -2,24 +2,31 @@ import assert from 'assert';
 import getTimer from '../getTimer.js';
 
 describe(`Timer tests`, () => {
-  it(`should return less on one number`, () => {
-    const timer = getTimer(30);
-    assert.equal(29, timer.tick().value);
-    assert.equal(28, timer.tick().value);
-    assert.equal(27, timer.tick().value);
+  it(`should new timer with set value`, () => {
+    const timer = getTimer(3);
+    assert.equal(3, timer.value);
   });
-  it(`should return false if time's up`, () => {
-    const timer = getTimer(0);
-    assert.equal(false, timer.tick());
-  });
-  it(`should return false if time's up`, () => {
+  it(`should decrement value by tick`, () => {
     const timer = getTimer(5);
-    assert.equal(4, timer.tick().value);
-    assert.equal(3, timer.tick().value);
-    assert.equal(2, timer.tick().value);
-    assert.equal(1, timer.tick().value);
-    assert.equal(0, timer.tick().value);
-    assert.equal(false, timer.tick());
+    timer.tick();
+    assert.equal(4, timer.value);
+  });
+  it(`should decrement value by every call tick`, () => {
+    const timer = getTimer(15);
+    timer.tick();
+    timer.tick();
+    timer.tick();
+    timer.tick();
+    timer.tick();
+    assert.equal(10, timer.value);
+  });
+  it(`should return false when timer stop`, () => {
+    const timer = getTimer(0);
+    assert.equal(-1, timer.tick());
+  });
+  it(`should return true when timer continue`, () => {
+    const timer = getTimer(2);
+    assert.equal(true, timer.tick());
   });
 
 });

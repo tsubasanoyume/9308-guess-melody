@@ -1,30 +1,28 @@
-import setTemplateToNode from './getElement.js';
 import setScreen from './setScreen.js';
-import lvlGenreScreen from './levelGenre.js';
+import setTemplateToNode from './getElement.js';
+import {levels, stats, setNextLevel, setLives, gameStack} from './data/data.js';
+import getHeader from './header.js';
+import getPoints from './getPoints.js';
 
-const lvlArtistTemplate = `<section class="main main--level main--level-artist">
-    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-      <circle
-        cx="390" cy="390" r="370"
-        class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+const answerNode = (answers) => `${[...answers].map((answer, i) => `<div class="main-answer-wrapper">
+            <input class="main-answer-r" type="radio" id="answer-${i + 1}" name="answer" value="${answer.isRight}"/>
+            <label class="main-answer" for="answer-${i + 1}">
+              <img class="main-answer-preview" src="${answer.imageSRC}"
+                   alt="${answer.nameArtist}" width="134" height="134">
+              ${answer.nameArtist}
+            </label>
+          </div>`).join(``)}`;
 
-      <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">05</span><!--
-        --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">00</span>
-      </div>
-    </svg>
-    <div class="main-mistakes">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-    </div>
+const lvlArtistTemplate = (game) => {
+  const temp = `<section class="main main--level main--level-artist">
+
+    ${getHeader(game)}
 
     <div class="main-wrap">
-      <h2 class="title main-title">Кто исполняет эту песню?</h2>
+      <h2 class="title main-title">${levels[`state-` + game.level].question}</h2>
       <div class="player-wrapper">
         <div class="player">
-          <audio></audio>
+          <audio src="${levels[`state-` + game.level].srcAudio}"></audio>
           <button class="player-control player-control--pause"></button>
           <div class="player-track">
             <span class="player-status"></span>
@@ -32,47 +30,39 @@ const lvlArtistTemplate = `<section class="main main--level main--level-artist">
         </div>
       </div>
       <form class="main-list">
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1"/>
-          <label class="main-answer" for="answer-1">
-            <img class="main-answer-preview" src="http://placehold.it/134x134"
-                 alt="Пелагея" width="134" height="134">
-            Пелагея
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-2"/>
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="http://placehold.it/134x134"
-                 alt="Краснознаменная дивизия имени моей бабушки" width="134" height="134">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-3" name="answer" value="val-3"/>
-          <label class="main-answer" for="answer-3">
-            <img class="main-answer-preview" src="http://placehold.it/134x134"
-                 alt="Lorde" width="134" height="134">
-            Lorde
-          </label>
-        </div>
+       ${answerNode(levels[`state-` + game.level].answers)}
       </form>
     </div>
   </section>`;
 
-const lvlArtistScreen = setTemplateToNode(lvlArtistTemplate);
+  const lvlArtistScreen = setTemplateToNode(temp);
 
-const radioButtons = lvlArtistScreen.querySelectorAll(`.main-answer-r`);
+  const radioButtons = lvlArtistScreen.querySelectorAll(`.main-answer-r`);
 
-[...radioButtons].forEach((item) => {
-  item.addEventListener(`change`, (e) => {
-    e.preventDefault();
-    if (item.checked) {
-      setScreen(lvlGenreScreen);
-    }
+  [...radioButtons].forEach((item) => {
+    item.addEventListener(`change`, (e) => {
+      e.preventDefault();
+      if (item.checked) {
+        if (item.value === `true`) {
+          stats.push(35);
+          gameStack.push(game);
+          game = setNextLevel(game);
+          setScreen(game);
+        } else {
+          if (game.lives <= 0) {
+            game.level = `fail`;
+            game.points = getPoints(stats, game.lives);
+            setScreen(game);
+          } else {
+            game = setLives(game, game.lives - 1);
+            setScreen(game);
+          }
+        }
+      }
+    });
   });
-});
 
-export default lvlArtistScreen;
+  return lvlArtistScreen;
+};
+
+export default lvlArtistTemplate;

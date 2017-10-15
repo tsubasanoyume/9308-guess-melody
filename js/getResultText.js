@@ -1,3 +1,5 @@
+import {MAX_LIVES} from './data/Constants.js';
+
 const getResultText = (allPlayersResults, currentPlayerResult) => {
   const stats = allPlayersResults.slice();
   const currentResult = Object.assign({}, currentPlayerResult);
@@ -7,13 +9,23 @@ const getResultText = (allPlayersResults, currentPlayerResult) => {
   let place = 0;
   let placeTextEnd = `о`;
   let playersTextEnd = `ов`;
+
   if (currentResult.points < 0) {
-    if (currentResult.lives < 0) {
-      resultText = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+    if (currentResult.lives <= 0) {
+      resultText = {
+        title: `Какая жалость!`,
+        stat: `У вас закончились все попытки.<br> Ничего, повезёт в следующий раз!`,
+        button: `Попробовать ещё раз`
+      };
     } else if (currentResult.time < 0) {
-      resultText = `Время вышло! Вы не успели отгадать все мелодии`;
+      resultText = {
+        title: `Увы и ах!`,
+        stat: `Время вышло!<br> Вы не успели отгадать все мелодии`,
+        button: `Попробовать ещё раз`
+      };
     }
   } else {
+
     stats.push(currentResult.points);
 
     stats.sort((a, b) => {
@@ -39,7 +51,14 @@ const getResultText = (allPlayersResults, currentPlayerResult) => {
       placeTextEnd = `ь`;
     }
 
-    resultText = `Вы заняли ${place}-${placeTextEnd}е место из ${stats.length} игрок${playersTextEnd}. Это лучше чем у ${percent}% игроков`;
+    resultText = {
+      title: `Вы настоящий меломан!`,
+      stat: `За 3 минуты и 25 секунд
+      <br>вы набрали ${currentResult.points} баллов
+      <br>совершив ${MAX_LIVES - currentResult.lives} ошибки`,
+      comparison: `Вы заняли ${place}-${placeTextEnd}е место из ${stats.length} игрок${playersTextEnd}. Это лучше чем у ${percent}% игроков`,
+      button: `Сыграть ещё раз`
+    };
   }
 
   return resultText;
