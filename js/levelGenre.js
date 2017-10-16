@@ -3,6 +3,7 @@ import setScreen from './setScreen.js';
 import {levels, stats, setNextLevel, setLives, gameStack} from './data/data.js';
 import getHeader from './header.js';
 import getPoints from './getPoints.js';
+import {TEMP_ANSWER_TIME} from './data/Constants.js';
 
 const answerNode = (answers) => `${[...answers].map((answer) => `<div class="genre-answer">
           <div class="player-wrapper">
@@ -75,20 +76,19 @@ const lvlGenreTemplate = (game) => {
       });
 
       if (countRightAnswers === count) {
-        stats.push(35);
+        stats.push(TEMP_ANSWER_TIME);
         gameStack.push(game);
         game = setNextLevel(game);
-        setScreen(game);
       } else {
-        if (game.lives <= 0) {
+        if (game.lives <= 0 || game.time <= 0) {
           game.level = `fail`;
           game.points = getPoints(stats, game.lives);
-          setScreen(game);
         } else {
           game = setLives(game, game.lives - 1);
-          setScreen(game);
         }
       }
+
+      setScreen(game);
     }
   });
 

@@ -5,11 +5,7 @@ const getPoints = (answersArray, lives) => {
   let points = 0;
   if (answers.length === 10) {
     for (let i = 0; i < answers.length; i++) {
-      if (answers[i] <= 30) {
-        points += 2;
-      } else {
-        points += 1;
-      }
+      points += (answers[i] <= 30) ? 2 : 1;
     }
 
     if (lives >= 0 && lives < MAX_LIVES) {

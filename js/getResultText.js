@@ -1,4 +1,4 @@
-import {MAX_LIVES} from './data/Constants.js';
+import {MAX_LIVES, FailResultText} from './data/Constants.js';
 
 const getResultText = (allPlayersResults, currentPlayerResult) => {
   const stats = allPlayersResults.slice();
@@ -11,18 +11,11 @@ const getResultText = (allPlayersResults, currentPlayerResult) => {
   let playersTextEnd = `ов`;
 
   if (currentResult.points < 0) {
+
     if (currentResult.lives <= 0) {
-      resultText = {
-        title: `Какая жалость!`,
-        stat: `У вас закончились все попытки.<br> Ничего, повезёт в следующий раз!`,
-        button: `Попробовать ещё раз`
-      };
+      resultText = FailResultText.TRY_FAIL;
     } else if (currentResult.time < 0) {
-      resultText = {
-        title: `Увы и ах!`,
-        stat: `Время вышло!<br> Вы не успели отгадать все мелодии`,
-        button: `Попробовать ещё раз`
-      };
+      resultText = FailResultText.TIME_FAIL;
     }
   } else {
 

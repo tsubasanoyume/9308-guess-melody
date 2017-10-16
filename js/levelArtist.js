@@ -3,6 +3,7 @@ import setTemplateToNode from './getElement.js';
 import {levels, stats, setNextLevel, setLives, gameStack} from './data/data.js';
 import getHeader from './header.js';
 import getPoints from './getPoints.js';
+import {TEMP_ANSWER_TIME} from './data/Constants.js';
 
 const answerNode = (answers) => `${[...answers].map((answer, i) => `<div class="main-answer-wrapper">
             <input class="main-answer-r" type="radio" id="answer-${i + 1}" name="answer" value="${answer.isRight}"/>
@@ -43,21 +44,24 @@ const lvlArtistTemplate = (game) => {
     item.addEventListener(`change`, (e) => {
       e.preventDefault();
       if (item.checked) {
-        if (item.value === `true`) {
-          stats.push(35);
-          gameStack.push(game);
-          game = setNextLevel(game);
-          setScreen(game);
-        } else {
-          if (game.lives <= 0) {
-            game.level = `fail`;
-            game.points = getPoints(stats, game.lives);
-            setScreen(game);
-          } else {
-            game = setLives(game, game.lives - 1);
-            setScreen(game);
+        switch (item.value) {
+          case `true`: {
+            stats.push(TEMP_ANSWER_TIME);
+            gameStack.push(game);
+            game = setNextLevel(game);
+            break;
+          }
+          case `false`: {
+            if (game.lives <= 0 || game.time <= 0) {
+              game.level = `fail`;
+              game.points = getPoints(stats, game.lives);
+            } else {
+              game = setLives(game, game.lives - 1);
+            }
           }
         }
+
+        setScreen(game);
       }
     });
   });
