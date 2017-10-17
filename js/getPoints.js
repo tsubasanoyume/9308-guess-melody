@@ -1,15 +1,11 @@
-const MAX_LIVES = 3;
+import {MAX_LIVES} from './data/Constants.js';
 
 const getPoints = (answersArray, lives) => {
   const answers = answersArray.slice();
   let points = 0;
   if (answers.length === 10) {
     for (let i = 0; i < answers.length; i++) {
-      if (answers[i] <= 30) {
-        points += 2;
-      } else {
-        points += 1;
-      }
+      points += (answers[i] <= 30) ? 2 : 1;
     }
 
     if (lives >= 0 && lives < MAX_LIVES) {

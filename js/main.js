@@ -1,4 +1,4 @@
 import setScreen from './setScreen.js';
-import welcomeScreen from './welcome.js';
+import {defaultState} from './data/data.js';
 
-setScreen(welcomeScreen);
+setScreen(defaultState);

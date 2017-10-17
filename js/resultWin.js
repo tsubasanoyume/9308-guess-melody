@@ -1,6 +1,6 @@
 import setTemplateToNode from './getElement.js';
 import setScreen from './setScreen.js';
-import welcomeScreen from './welcome.js';
+import {defaultState} from './data/data.js';
 
 const resultWinTemplate = `<section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -19,7 +19,7 @@ const tryAgainButton = resultWinScreen.querySelector(`.main-replay`);
 
 tryAgainButton.addEventListener(`click`, (e) => {
   e.preventDefault();
-  setScreen(welcomeScreen);
+  setScreen(defaultState);
 });
 
 export default resultWinScreen;

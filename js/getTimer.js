@@ -1,12 +1,26 @@
 const getTimer = (val) => {
+  let timer = null;
+
   return {
     value: val,
     tick() {
-      if (this.value > 0) {
-        return getTimer(--this.value);
-      } else {
-        return false;
-      }
+      return --this.value;
+    },
+    start() {
+      timer = setInterval(() => {
+        if (this.value > 0) {
+          this.tick();
+        } else {
+          this.stop();
+        }
+      }, 1000);
+    },
+    stop() {
+      clearInterval(timer);
+    },
+    reset() {
+      this.value = 0;
+      clearInterval(timer);
     }
   };
 };
