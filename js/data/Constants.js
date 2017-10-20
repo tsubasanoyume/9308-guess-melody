@@ -13,4 +13,11 @@ export const FailResultText = {
   }
 };
 
-export const TEMP_ANSWER_TIME = 35;
+export const GAME_TIME = 300;
+
+export const Result = {
+  FAIL: 0,
+  WIN: 1,
+  NEXT: 2,
+  DIE: 3
+};
