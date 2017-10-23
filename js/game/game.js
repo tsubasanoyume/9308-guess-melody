@@ -7,6 +7,7 @@ import {Result} from '../data/Constants.js';
 import getPoints from '../getPoints.js';
 import setScreen from '../setScreen.js';
 import getTimer from '../getTimer.js';
+import gameOver from '../timer-listener.js';
 
 const changeLevel = (game) => {
   let level = new LevelGenreView(game, game.level);
@@ -19,8 +20,11 @@ const changeLevel = (game) => {
   timer.start();
   const startLevelTime = timer.getCurrentTimer();
 
+  gameOver();
+
   level.onAnswer = (answer) => {
     timer.stop();
+
     switch (answer) {
       case Result.DIE: {
         game = setTime(game, timer.getCurrentTimer());
@@ -28,7 +32,7 @@ const changeLevel = (game) => {
         break;
       }
       case Result.FAIL: {
-        game = setTime(game, timer.getCurrentTimer());
+        game = setTime(game, 0);
         const failScreen = result(game);
         failScreen.onRepeat = () => {
           setScreen(showWelcome());

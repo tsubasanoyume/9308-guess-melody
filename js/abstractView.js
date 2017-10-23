@@ -2,7 +2,7 @@ import setTemplateToNode from './getElement.js';
 
 export default class AbstractView {
   get template() {
-
+    throw new Error(`You should provide a template`);
   }
 
   render() {

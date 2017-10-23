@@ -4,7 +4,7 @@ import getResultText from '../getResultText.js';
 describe(`Get Result text tests`, () => {
   describe(`Loser scenarios`, () => {
     it(`should return loser with time text when time is up`, () => {
-      assert.equal(`Время вышло!<br> Вы не успели отгадать все мелодии`, getResultText([], {points: -1, time: -1}).stat);
+      assert.equal(`Время вышло!<br> Вы не успели отгадать все мелодии`, getResultText([], {points: 10, time: 0}).stat);
     });
     it(`should return loser with attempts text when lives ends`, () => {
       assert.equal(`У вас закончились все попытки.<br> Ничего, повезёт в следующий раз!`, getResultText([], {points: -1, lives: -1}).stat);
