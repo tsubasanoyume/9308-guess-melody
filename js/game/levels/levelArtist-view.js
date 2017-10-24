@@ -2,7 +2,7 @@ import AbstractView from '../../abstractView.js';
 import HeaderView from '../header/header-view.js';
 import {Result} from '../../data/Constants.js';
 import getPoints from '../../getPoints.js';
-import {levels, stats, getLevel, setNextLevel} from '../../data/data.js';
+import {levels, stats, getLevel, setNextLevel, setLives} from '../../data/data.js';
 
 const answerNode = (answers) => `${[...answers].map((answer, i) => `<div class="main-answer-wrapper">
             <input class="main-answer-r" type="radio" id="answer-${i + 1}" name="answer" value="val-${i + 1}"/>
@@ -82,7 +82,8 @@ export default class LevelArtistView extends AbstractView {
             this.onAnswer(getLevel(setNextLevel(this.game)) ? Result.NEXT : Result.WIN);
           } else {
             let result = Result.DIE;
-            if (this.game.lives <= 0 || this.game.time <= 0) {
+            if (this.game.lives <= 1) {
+              this.game.lives = 0;
               this.game.points = getPoints(stats, this.game.lives);
               result = Result.FAIL;
             }

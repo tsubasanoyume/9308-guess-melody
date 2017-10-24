@@ -32,7 +32,9 @@ const changeLevel = (game) => {
         break;
       }
       case Result.FAIL: {
-        game = setTime(game, 0);
+        if (game.lives !== 0) {
+          game = setTime(game, 0);
+        }
         const failScreen = result(game);
         failScreen.onRepeat = () => {
           setScreen(showWelcome());
