@@ -8,11 +8,11 @@ const getPoints = (answersArray, lives) => {
       points += (answers[i] <= 30) ? 2 : 1;
     }
 
-    if (lives >= 1 && lives < MAX_LIVES) {
+    if (lives >= 0 && lives < MAX_LIVES) {
       points -= (MAX_LIVES - lives) * 2;
     }
 
-    if (lives === 0) {
+    if (lives < 0) {
       points = -1;
     }
   } else {

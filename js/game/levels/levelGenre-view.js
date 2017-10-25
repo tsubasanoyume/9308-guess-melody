@@ -114,8 +114,7 @@ export default class LevelGenreView extends AbstractView {
           this.onAnswer(getLevel(setNextLevel(this.game)) ? Result.NEXT : Result.WIN);
         } else {
           let result = Result.DIE;
-          if (this.game.lives <= 1) {
-            this.game.lives = 0;
+          if (this.game.lives <= 0 || this.game.time <= 0) {
             this.game.points = getPoints(stats, this.game.lives);
             result = Result.FAIL;
           }

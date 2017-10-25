@@ -32,11 +32,10 @@ const changeLevel = (game) => {
         break;
       }
       case Result.FAIL: {
-        if (game.lives !== 0) {
-          game = setTime(game, 0);
-        }
+        game = setTime(game, 0);
         const failScreen = result(game);
         failScreen.onRepeat = () => {
+          stats.length = 0;
           setScreen(showWelcome());
         };
         setScreen(failScreen);
@@ -50,6 +49,7 @@ const changeLevel = (game) => {
 
         const winScreen = result(game);
         winScreen.onRepeat = () => {
+          stats.length = 0;
           setScreen(showWelcome());
         };
         game.points = getPoints(stats, game.lives);
