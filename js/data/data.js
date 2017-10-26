@@ -1,7 +1,10 @@
+import {GAME_TIME} from './Constants.js';
+
 export const defaultState = Object.freeze({
   lives: 3,
-  level: 0,
-  time: 300
+  level: 1,
+  time: GAME_TIME,
+  points: 0
 });
 
 export const levels = {
@@ -254,9 +257,11 @@ export const levels = {
 
 export const stats = [];
 
-export const gameStack = [];
-
 export const statistics = [1, 2, 3];
+
+export const getLevel = (game) => {
+  return levels[`state-` + game.level] || false;
+};
 
 export const setNextLevel = (game) => {
   game = Object.assign({}, game);
@@ -270,4 +275,28 @@ export const setLives = (game, lives) => {
   game.lives = lives;
 
   return game;
+};
+
+export const getTime = (time, type) => {
+  const value = type === `min` ? Math.trunc(time / 60) : Math.trunc(time % 60);
+
+  return value.toString().length > 1 ? value : `0` + value;
+};
+
+export const setTime = (game, time) => {
+  game = Object.assign({}, game);
+  game.time = time;
+
+  return game;
+};
+
+export const getRadius = (ratio, radius) => {
+  const circleLength = Math.round(2 * Math.PI * radius);
+  const leftStroke = Math.round(circleLength * ratio);
+  const offsetLength = circleLength - leftStroke;
+
+  return {
+    stroke: leftStroke,
+    offset: offsetLength
+  };
 };

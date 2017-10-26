@@ -1,4 +1,5 @@
 import {MAX_LIVES, FailResultText} from './data/Constants.js';
+import {getTime} from './data/data.js';
 
 const getResultText = (allPlayersResults, currentPlayerResult) => {
   const stats = allPlayersResults.slice();
@@ -14,8 +15,6 @@ const getResultText = (allPlayersResults, currentPlayerResult) => {
 
     if (currentResult.lives <= 0) {
       resultText = FailResultText.TRY_FAIL;
-    } else if (currentResult.time < 0) {
-      resultText = FailResultText.TIME_FAIL;
     }
   } else {
 
@@ -44,14 +43,21 @@ const getResultText = (allPlayersResults, currentPlayerResult) => {
       placeTextEnd = `ь`;
     }
 
-    resultText = {
-      title: `Вы настоящий меломан!`,
-      stat: `За 3 минуты и 25 секунд
-      <br>вы набрали ${currentResult.points} баллов
-      <br>совершив ${MAX_LIVES - currentResult.lives} ошибки`,
-      comparison: `Вы заняли ${place}-${placeTextEnd}е место из ${stats.length} игрок${playersTextEnd}. Это лучше чем у ${percent}% игроков`,
-      button: `Сыграть ещё раз`
-    };
+    if (currentResult.time <= 0) {
+      resultText = FailResultText.TIME_FAIL;
+    } else {
+      const minutes = getTime(currentResult.time, `min`);
+      const seconds = getTime(currentResult.time, `sec`);
+
+      resultText = {
+        title: `Вы настоящий меломан!`,
+        stat: `За ${minutes} минуты и ${seconds} секунд
+    <br>вы набрали ${currentResult.points} баллов
+    <br>совершив ${MAX_LIVES - currentResult.lives} ошибки`,
+        comparison: `Вы заняли ${place}-${placeTextEnd}е место из ${stats.length} игрок${playersTextEnd}. Это лучше чем у ${percent}% игроков`,
+        button: `Сыграть ещё раз`
+      };
+    }
   }
 
   return resultText;

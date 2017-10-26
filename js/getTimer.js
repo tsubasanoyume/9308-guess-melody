@@ -1,4 +1,6 @@
-const getTimer = (val) => {
+import {updateTime} from './updateTimer.js';
+
+const getTimer = (val, game) => {
   let timer = null;
 
   return {
@@ -7,11 +9,23 @@ const getTimer = (val) => {
       return --this.value;
     },
     start() {
+      let event;
       timer = setInterval(() => {
         if (this.value > 0) {
           this.tick();
+          updateTime(this.value);
         } else {
-          this.stop();
+          this.reset();
+          if (game) {
+            event = new CustomEvent(`gameover`, {
+              detail: {
+                gameDetail: game
+              }
+            });
+          }
+        }
+        if (event) {
+          document.dispatchEvent(event);
         }
       }, 1000);
     },
@@ -21,6 +35,9 @@ const getTimer = (val) => {
     reset() {
       this.value = 0;
       clearInterval(timer);
+    },
+    getCurrentTimer() {
+      return this.value;
     }
   };
 };
