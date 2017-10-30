@@ -1,8 +1,9 @@
 import App from './application.js';
+import {setTime} from './data/data.js';
 
 const setGameOver = ({detail: gameDetail}) => {
-  gameDetail.time = 0;
-  App.gameOver(gameDetail);
+  const game = setTime(gameDetail[`gameDetail`], 0);
+  App.gameOver(game);
 };
 
 export default () => {

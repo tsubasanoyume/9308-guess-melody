@@ -7,7 +7,7 @@ import gameOver from '../timer-listener.js';
 import GameModel from './game-model.js';
 import App from '../application.js';
 
-class GameScreen {
+export default class GameScreen {
   constructor(data = levels) {
     this.model = new GameModel(data);
     this.view = this.getLevelType(defaultState);
@@ -83,5 +83,3 @@ class GameScreen {
   }
 
 }
-
-export default new GameScreen();
