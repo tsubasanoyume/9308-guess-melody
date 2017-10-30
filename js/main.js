@@ -1,4 +1,3 @@
-import setScreen from './setScreen.js';
-import showWelcome from './welcome/welcome.js';
+import App from './application.js';
 
-setScreen(showWelcome());
+App.showWelcome();
