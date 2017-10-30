@@ -1,9 +1,9 @@
-import {Result} from './data/Constants.js';
-import changeLevel from './game/game.js';
+import App from './application.js';
+import {setTime} from './data/data.js';
 
 const setGameOver = ({detail: gameDetail}) => {
-  const level = changeLevel(gameDetail);
-  level.onAnswer(Result.FAIL);
+  const game = setTime(gameDetail[`gameDetail`], 0);
+  App.gameOver(game);
 };
 
 export default () => {

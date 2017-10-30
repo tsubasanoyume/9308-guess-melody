@@ -1,11 +1,19 @@
 import WelcomeView from './welcome-view.js';
 import setScreen from '../setScreen.js';
-import startGame from '../game/game.js';
+import App from '../application.js';
 
-const welcome = new WelcomeView();
+class WelcomeScreen {
+  constructor() {
+    this.view = new WelcomeView();
+  }
 
-welcome.onClick = () => {
-  setScreen(startGame());
-};
+  init() {
+    setScreen(this.view);
 
-export default () => welcome;
+    this.view.onClick = () => {
+      App.startGame();
+    };
+  }
+}
+
+export default new WelcomeScreen();
