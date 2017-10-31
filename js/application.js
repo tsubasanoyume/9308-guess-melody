@@ -18,7 +18,7 @@ const routes = {
 
 const loadGame = (data) => {
   if (data) {
-    data = `{lives:${data.substr(0, 1)},level:${+data.substr(1, 2)},time:${+data.substr(3, 3)},points:${+data.substr(6)}}`;
+    data = `{"lives": ${data.substr(0, 1)}, "level":${+data.substr(1, 2)}, "time": ${+data.substr(3, 3)}, "points": ${+data.substr(6)}}`;
   }
   try {
     return JSON.parse(data);
@@ -61,7 +61,7 @@ export default class Application {
     location.hash = ControllerID.WELCOME;
   }
 
-  static startGame(game = defaultState) {
+  static changeLevel(game = defaultState) {
     routes[ControllerID.GAME] = new GameScreen();
     location.hash = `${ControllerID.GAME}?${saveGame(game)}`;
   }
