@@ -2,7 +2,7 @@ import AbstractView from '../../abstractView.js';
 import HeaderView from '../header/header-view.js';
 import {Result} from '../../data/Constants.js';
 import getPoints from '../../getPoints.js';
-import {levels, stats, getLevel, setNextLevel} from '../../data/data.js';
+import {stats, getLevel, setNextLevel} from '../../data/data.js';
 
 const answerNode = (answers) => `${[...answers].map((answer, i) => `<div class="main-answer-wrapper">
             <input class="main-answer-r" type="radio" id="answer-${i + 1}" name="answer" value="val-${i + 1}"/>
@@ -14,10 +14,11 @@ const answerNode = (answers) => `${[...answers].map((answer, i) => `<div class="
           </div>`).join(``)}`;
 
 export default class LevelArtistView extends AbstractView {
-  constructor(game, level) {
+  constructor(game, level, model) {
     super();
     this.level = level;
     this.game = game;
+    this.model = model;
   }
 
   get template() {
@@ -27,10 +28,10 @@ export default class LevelArtistView extends AbstractView {
     ${header.template}
 
     <div class="main-wrap">
-      <h2 class="title main-title">${levels[`state-` + this.level].question}</h2>
+      <h2 class="title main-title">${this.model.data[`state-` + this.level].question}</h2>
       <div class="player-wrapper">
         <div class="player">
-          <audio src="${levels[`state-` + this.level].srcAudio}" autoplay></audio>
+          <audio src="${this.model.data[`state-` + this.level].srcAudio}" autoplay></audio>
           <button class="player-control player-control--pause"></button>
           <div class="player-track">
             <span class="player-status"></span>
@@ -38,7 +39,7 @@ export default class LevelArtistView extends AbstractView {
         </div>
       </div>
       <form class="main-list">
-       ${answerNode(levels[`state-` + this.level].answers)}
+       ${answerNode(this.model.data[`state-` + this.level].answers)}
       </form>
     </div>
   </section>`;
@@ -63,16 +64,9 @@ export default class LevelArtistView extends AbstractView {
     });
 
     const radioButtons = this.element.querySelectorAll(`.main-answer-r`);
-    const answers = levels[`state-` + this.game.level].answers;
+    const answers = this.model.data[`state-` + this.game.level].answers;
 
-    const rightAnswerIndex = answers.findIndex((el, i) => {
-      if (!el.isRight) {
-        return false;
-      }
-
-      return i;
-    });
-
+    const rightAnswerIndex = answers.findIndex((el) => el.isRight);
 
     [...radioButtons].forEach((item, i) => {
       item.addEventListener(`change`, (e) => {

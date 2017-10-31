@@ -2,18 +2,14 @@ import welcomeScreen from './welcome/welcome.js';
 import {defaultState} from './data/data.js';
 import GameScreen from './game/game.js';
 import ResultScreen from './result/resultScreen.js';
+import Loader from './loader.js';
+import adaptData from './data/data-adapter.js';
 
 
 const ControllerID = {
   WELCOME: ``,
   GAME: `game`,
   SCORE: `score`
-};
-
-const routes = {
-  [ControllerID.WELCOME]: welcomeScreen,
-  [ControllerID.GAME]: ``,
-  [ControllerID.SCORE]: ``
 };
 
 const loadGame = (data) => {
@@ -40,18 +36,24 @@ const saveGame = (game) => {
 };
 
 export default class Application {
-  static init() {
+  static init(gameData) {
+    Application.routes = {
+      [ControllerID.WELCOME]: welcomeScreen,
+      [ControllerID.GAME]: new GameScreen(gameData),
+      [ControllerID.SCORE]: ``
+    };
+
     const hashChangeHandler = () => {
       const hashValue = location.hash.replace(`#`, ``);
       const [id, data] = hashValue.split(`?`);
-      this.changeHash(id, data);
+      Application.changeHash(id, data);
     };
     window.onhashchange = hashChangeHandler;
     hashChangeHandler();
   }
 
   static changeHash(id, data) {
-    const controller = routes[id];
+    const controller = Application.routes[id];
     if (controller) {
       controller.init(loadGame(data));
     }
@@ -62,14 +64,18 @@ export default class Application {
   }
 
   static changeLevel(game = defaultState) {
-    routes[ControllerID.GAME] = new GameScreen();
+    // Application.routes[ControllerID.GAME].init(game);
     location.hash = `${ControllerID.GAME}?${saveGame(game)}`;
   }
 
   static gameOver(game) {
-    routes[ControllerID.SCORE] = new ResultScreen(game);
+    Application.routes[ControllerID.SCORE] = new ResultScreen(game);
+    Application.routes[ControllerID.SCORE].init();
     location.hash = `${ControllerID.SCORE}?${saveGame(game)}`;
   }
 }
 
-Application.init();
+Loader.load()
+    .then(adaptData)
+    .then((gameData) => Application.init(gameData))
+    .catch(window.console.error);

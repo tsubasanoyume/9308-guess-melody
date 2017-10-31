@@ -2,9 +2,9 @@ import AbstractView from '../../abstractView.js';
 import HeaderView from '../header/header-view.js';
 import {Result} from '../../data/Constants.js';
 import getPoints from '../../getPoints.js';
-import {levels, stats, getLevel, setNextLevel} from '../../data/data.js';
+import {stats, getLevel, setNextLevel} from '../../data/data.js';
 
-const answerNode = (answers) => `${[...answers].map((answer) => `<div class="genre-answer">
+const answerNode = (answers) => `${[...answers].map((answer, i) => `<div class="genre-answer">
           <div class="player-wrapper">
             <div class="player">
               <audio src="${answer.srcAudio}"></audio>
@@ -14,15 +14,16 @@ const answerNode = (answers) => `${[...answers].map((answer) => `<div class="gen
               </div>
             </div>
           </div>
-          <input type="checkbox" name="answer" value="${answer.genre}" id="${answer.genre}">
-          <label class="genre-answer-check" for="${answer.genre}"></label>
+          <input type="checkbox" name="answer" value="${answer.genre}" id="id-${i + 1}-${answer.genre}">
+          <label class="genre-answer-check" for="id-${i + 1}-${answer.genre}"></label>
         </div>`).join(``)}`;
 
 export default class LevelGenreView extends AbstractView {
-  constructor(game, level) {
+  constructor(game, level, model) {
     super();
     this.level = level;
     this.game = game;
+    this.model = model;
   }
 
   get template() {
@@ -31,9 +32,9 @@ export default class LevelGenreView extends AbstractView {
     ${header.template}
 
     <div class="main-wrap">
-      <h2 class="title">${levels[`state-` + this.level].question}</h2>
+      <h2 class="title">${this.model.data[`state-` + this.level].question}</h2>
       <form class="genre">
-        ${answerNode(levels[`state-` + this.level].answers)}
+        ${answerNode(this.model.data[`state-` + this.level].answers)}
 
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
@@ -75,7 +76,7 @@ export default class LevelGenreView extends AbstractView {
     const answersContainer = this.element.querySelector(`.genre`);
 
     sendButton.disabled = true;
-    const rightAnswer = levels[`state-` + this.level].genre;
+    const rightAnswer = this.model.data[`state-` + this.level].genre;
     let countRightAnswers = 0;
     let arr = [];
 
