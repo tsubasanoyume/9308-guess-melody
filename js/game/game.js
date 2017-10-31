@@ -10,16 +10,18 @@ import App from '../application.js';
 export default class GameScreen {
   constructor(data = levels) {
     this.model = new GameModel(data);
-    this.view = this.getLevelType(defaultState);
-
-    this.view.onAnswer = (answer) => this.onAnswer(answer);
   }
 
   init(game = defaultState) {
     this.model.update(game);
-    this.model.setTimer();
+    this.model.setTimer(game.time);
 
     this.model.timer.start();
+
+    this.view = this.getLevelType(this.model.game);
+
+    this.view.onAnswer = (answer) => this.onAnswer(answer);
+
     gameOver();
 
     setScreen(this.view);
@@ -42,7 +44,7 @@ export default class GameScreen {
       case Result.DIE: {
         this.model.die();
         this.model.setGameTime();
-        this.changeLevel();
+        App.changeLevel(this.model.game);
         break;
       }
       case Result.FAIL: {
@@ -66,20 +68,9 @@ export default class GameScreen {
         this.model.setStat(startLevelTime - this.model.getAnswerTime());
 
         this.model.nextLevel();
-        this.changeLevel();
+        App.changeLevel(this.model.game);
         break;
       }
     }
   }
-
-  changeLevel() {
-    this.view = this.getLevelType(this.model.game);
-
-    this.model.timer.start();
-
-    this.view.onAnswer = (answer) => this.onAnswer(answer);
-
-    setScreen(this.view);
-  }
-
 }
