@@ -79,9 +79,12 @@ export default class Application {
 Loader.load()
     .then(adaptData)
     .then((gameData) => Application.init(gameData))
-    .then(() => Promise.all(preload(audioArray)))
+    .then(() => audioArray.map((item) => preload(item)))
+    .then((songPromises) => Promise.all(songPromises))
     .then(() => {
       const playButton = document.querySelector(`.main-play`);
+      const loadText = document.querySelector(`.main-stat`);
+      loadText.classList.add(`hide`);
       playButton.disabled = false;
     })
     .catch(window.console.error);

@@ -1,12 +1,7 @@
-export default (audioArray) => {
-  const promiseArray = audioArray.map((item) => {
-    return new Promise((onLoad, onError) => {
-      const audio = new Audio();
-      audio.onload = () => onLoad(audio);
-      audio.onError = () => onError(`Запись не удалось загрузить`);
-      audio.src = item;
-    });
+export default (src) => {
+  return new Promise((resolve) => {
+    const audio = new Audio();
+    audio.oncanplaythrough = () => resolve(audio);
+    audio.src = src;
   });
-
-  return promiseArray;
 };
