@@ -1,3 +1,5 @@
+import {audioArray} from './Constants.js';
+
 const generateAnswersArray = (answers, type) => {
   const answerArray = [];
 
@@ -10,6 +12,7 @@ const generateAnswersArray = (answers, type) => {
         isRight: answers[i].isCorrect
       };
     } else {
+      audioArray.push(answers[i].src);
       answerArray[i] = {
         srcAudio: answers[i].src,
         genre: answers[i].genre
@@ -31,6 +34,7 @@ export default (data) => {
     };
 
     if (data[i].type === `artist`) {
+      audioArray.push(data[i].src);
       adaptedObject[`state-${i + 1}`].srcAudio = data[i].src;
     } else {
       adaptedObject[`state-${i + 1}`].genre = data[i].genre;

@@ -4,7 +4,8 @@ import GameScreen from './game/game.js';
 import ResultScreen from './result/resultScreen.js';
 import Loader from './loader.js';
 import adaptData from './data/data-adapter.js';
-
+import {audioArray} from './data/Constants.js';
+import preload from './preload.js';
 
 const ControllerID = {
   WELCOME: ``,
@@ -78,4 +79,9 @@ export default class Application {
 Loader.load()
     .then(adaptData)
     .then((gameData) => Application.init(gameData))
+    .then(() => Promise.all(preload(audioArray)))
+    .then(() => {
+      const playButton = document.querySelector(`.main-play`);
+      playButton.disabled = false;
+    })
     .catch(window.console.error);

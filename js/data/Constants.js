@@ -22,4 +22,6 @@ export const Result = {
   DIE: 3
 };
 
+export const audioArray = [];
+
 export const SERVER_URL = `https://es.dump.academy/guess-melody`;
