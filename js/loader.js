@@ -17,6 +17,9 @@ export default class Loader {
       },
       method: `POST`
     };
+
     return fetch(`${SERVER_URL}/stats/${userName}`, requestSettings);
+
+
   }
 }

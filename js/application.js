@@ -1,10 +1,10 @@
 import welcomeScreen from './welcome/welcome.js';
-import {defaultState, stats} from './data/data.js';
+import {stats} from './data/data.js';
 import GameScreen from './game/game.js';
 import ResultScreen from './result/resultScreen.js';
 import Loader from './loader.js';
 import adaptData from './data/data-adapter.js';
-import {audioArray} from './data/Constants.js';
+import {audioArray, defaultState} from './data/Constants.js';
 import preload from './preload.js';
 
 const ControllerID = {
@@ -36,6 +36,21 @@ const saveGame = (game) => {
   }
 };
 
+const loadData = () => {
+  Loader.load()
+      .then(adaptData)
+      .then((gameData) => Application.init(gameData))
+      .then(() => audioArray.map((item) => preload(item)))
+      .then((songPromises) => Promise.all(songPromises))
+      .then(() => {
+        const playButton = document.querySelector(`.main-play`);
+        const loadText = document.querySelector(`.main-stat`);
+        loadText.classList.add(`hide`);
+        playButton.classList.remove(`hide`);
+      })
+      .catch(window.console.error);
+};
+
 export default class Application {
   static init(gameData) {
     Application.routes = {
@@ -61,6 +76,7 @@ export default class Application {
   }
 
   static showWelcome() {
+    loadData();
     location.hash = ControllerID.WELCOME;
   }
 
@@ -71,7 +87,7 @@ export default class Application {
 
   static gameOver(game) {
     if (game.points >= 0 && game.time > 0 && stats.length === 10) {
-      Loader.saveResult(game.points);
+      Loader.saveResult({answers: stats, lives: game.lives});
     }
     Application.routes[ControllerID.SCORE] = new ResultScreen(game);
     Application.routes[ControllerID.SCORE].init();
@@ -79,15 +95,4 @@ export default class Application {
   }
 }
 
-Loader.load()
-    .then(adaptData)
-    .then((gameData) => Application.init(gameData))
-    .then(() => audioArray.map((item) => preload(item)))
-    .then((songPromises) => Promise.all(songPromises))
-    .then(() => {
-      const playButton = document.querySelector(`.main-play`);
-      const loadText = document.querySelector(`.main-stat`);
-      loadText.classList.add(`hide`);
-      playButton.classList.remove(`hide`);
-    })
-    .catch(window.console.error);
+loadData();

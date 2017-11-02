@@ -1,7 +1,6 @@
 import LevelGenreView from './levels/levelGenre-view.js';
 import LevelArtistView from './levels/levelArtist-view.js';
-import {defaultState} from '../data/data.js';
-import {Result} from '../data/Constants.js';
+import {Result, defaultState} from '../data/Constants.js';
 import setScreen from '../setScreen.js';
 import gameOver from '../timer-listener.js';
 import GameModel from './game-model.js';

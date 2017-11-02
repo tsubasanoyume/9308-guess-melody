@@ -1,4 +1,5 @@
-import {levels, setLives, setTime, stats, setNextLevel} from '../data/data.js';
+import {setLives, setTime, stats, setNextLevel} from '../data/data.js';
+import {levels} from '../data/Constants.js';
 import getPoints from '../getPoints.js';
 import getTimer from '../getTimer.js';
 
