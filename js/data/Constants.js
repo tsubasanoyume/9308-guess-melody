@@ -25,3 +25,5 @@ export const Result = {
 export const audioArray = [];
 
 export const SERVER_URL = `https://es.dump.academy/guess-melody`;
+
+export const DEFAULT_USER = `id9308`;

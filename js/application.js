@@ -1,5 +1,5 @@
 import welcomeScreen from './welcome/welcome.js';
-import {defaultState} from './data/data.js';
+import {defaultState, stats} from './data/data.js';
 import GameScreen from './game/game.js';
 import ResultScreen from './result/resultScreen.js';
 import Loader from './loader.js';
@@ -70,6 +70,9 @@ export default class Application {
   }
 
   static gameOver(game) {
+    if (game.points >= 0 && game.time > 0 && stats.length === 10) {
+      Loader.saveResult(game.points);
+    }
     Application.routes[ControllerID.SCORE] = new ResultScreen(game);
     Application.routes[ControllerID.SCORE].init();
     location.hash = `${ControllerID.SCORE}?${saveGame(game)}`;
@@ -85,6 +88,6 @@ Loader.load()
       const playButton = document.querySelector(`.main-play`);
       const loadText = document.querySelector(`.main-stat`);
       loadText.classList.add(`hide`);
-      playButton.disabled = false;
+      playButton.classList.remove(`hide`);
     })
     .catch(window.console.error);

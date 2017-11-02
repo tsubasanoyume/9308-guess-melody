@@ -257,7 +257,7 @@ export const levels = {
 
 export const stats = [];
 
-export const statistics = [1, 2, 3];
+export const statistics = [];
 
 export const getLevel = (game) => {
   return levels[`state-` + game.level] || false;

@@ -3,13 +3,14 @@ import getResultText from '../getResultText.js';
 import {statistics} from '../data/data.js';
 
 export default class ResultScreenView extends AbstractView {
-  constructor(game) {
+  constructor(game, serverStatistic) {
     super();
     this.game = game;
+    this.serverStatistic = serverStatistic || statistics;
   }
 
   get template() {
-    const resultText = getResultText(statistics, this.game);
+    const resultText = getResultText(this.serverStatistic, this.game);
     return `<section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
 
