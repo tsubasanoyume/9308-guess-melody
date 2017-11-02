@@ -46,6 +46,14 @@
   margin: 0 0 1em;
 }
 
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
 @import "--level/main--level";
 @import "--result/main--result";
 @import "--welcome/main--welcome";

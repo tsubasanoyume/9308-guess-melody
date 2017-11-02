@@ -21,3 +21,7 @@ export const Result = {
   NEXT: 2,
   DIE: 3
 };
+
+export const audioArray = [];
+
+export const SERVER_URL = `https://es.dump.academy/guess-melody`;
