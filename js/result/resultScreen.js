@@ -1,7 +1,9 @@
 import ResultScreenView from './resultScreen-view.js';
 import setScreen from '../setScreen.js';
-import {stats} from '../data/data.js';
+import getPoints from '../getPoints.js';
+import {stats, statistics} from '../data/data.js';
 import App from '../application.js';
+import Loader from '../loader.js';
 
 class ResultScreen {
   constructor(game) {
@@ -10,6 +12,20 @@ class ResultScreen {
   }
 
   init() {
+    if (this.game.points >= 0 && this.game.time > 0 && stats.length === 10) {
+      Loader.loadResult().then((score) => {
+        for (const userStats of score) {
+          if (!Array.isArray(userStats)) {
+            statistics.push(getPoints(userStats.answers, userStats.lives));
+          }
+        }
+
+        this.view = new ResultScreenView(this.game, statistics);
+
+        return this.view;
+      });
+    }
+
     this.view.onRepeat = () => {
       stats.length = 0;
       App.showWelcome();
