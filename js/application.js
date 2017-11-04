@@ -81,7 +81,6 @@ export default class Application {
   }
 
   static changeLevel(game = defaultState) {
-    // Application.routes[ControllerID.GAME].init(game);
     location.hash = `${ControllerID.GAME}?${saveGame(game)}`;
   }
 
