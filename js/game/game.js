@@ -37,11 +37,19 @@ export default class GameScreen {
 
   onAnswer(answer) {
     this.model.timer.stop();
+    const startLevelTime = this.model.game.time;
+    this.model.setGameTime();
+
+    if (answer === Result.DIE) {
+      this.model.setStat(-1);
+    } else {
+      this.model.setStat(startLevelTime - this.model.getAnswerTime());
+    }
 
     switch (answer) {
       case Result.DIE: {
         this.model.die();
-        this.model.setGameTime();
+        this.model.nextLevel();
         App.changeLevel(this.model.game);
         break;
       }
@@ -50,21 +58,12 @@ export default class GameScreen {
         break;
       }
       case Result.WIN: {
-        const startLevelTime = this.model.game.time;
-        this.model.setGameTime();
-
-        this.model.setStat(startLevelTime - this.model.getAnswerTime());
         this.model.getGamePoints();
 
         App.gameOver(this.model.game);
         break;
       }
       case Result.NEXT: {
-        const startLevelTime = this.model.game.time;
-        this.model.setGameTime();
-
-        this.model.setStat(startLevelTime - this.model.getAnswerTime());
-
         this.model.nextLevel();
         App.changeLevel(this.model.game);
         break;
