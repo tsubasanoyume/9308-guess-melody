@@ -1,5 +1,5 @@
 import {getTime, getRadius} from './data/data.js';
-import {GAME_TIME} from './data/Constants.js';
+import {GAME_TIME, TIME_TO_SET_TIMER_RED} from './data/Constants.js';
 
 export const updateTime = (time) => {
   const minutesNode = document.querySelector(`.timer-value-mins`);
@@ -15,7 +15,7 @@ export const updateTime = (time) => {
     secondsNode.innerHTML = getTime(time, `sec`);
   }
 
-  if (time <= 30 && timerNode) {
+  if (time <= TIME_TO_SET_TIMER_RED && timerNode) {
     timerNode.classList.add(`timer-value--finished`);
   }
 

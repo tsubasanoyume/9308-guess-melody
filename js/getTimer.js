@@ -1,4 +1,5 @@
 import {updateTime} from './updateTimer.js';
+import {TICK_TIME} from './data/Constants.js';
 
 const getTimer = (val, game) => {
   let timer = null;
@@ -27,7 +28,7 @@ const getTimer = (val, game) => {
         if (event) {
           document.dispatchEvent(event);
         }
-      }, 1000);
+      }, TICK_TIME);
     },
     stop() {
       clearInterval(timer);

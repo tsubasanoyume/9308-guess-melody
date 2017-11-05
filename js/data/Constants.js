@@ -35,6 +35,26 @@ export const SERVER_URL = `https://es.dump.academy/guess-melody`;
 
 export const DEFAULT_USER = `id9308`;
 
+export const MINUTE_IN_SECOND = 60;
+
+export const RADIUS = 370;
+
+export const ANSWERS_ARRAY_LENGTH = 10;
+
+export const AnswersPoint = {
+  ANSWER_FAST: 2,
+  ANSWER_SLOW: 1,
+  ANSWER_FAIL: -1,
+  ANSWER_DIE: 2
+};
+
+export const LIMIT_FAST_ANSWER = 30;
+export const TIME_TO_SET_TIMER_RED = 30;
+
+export const TICK_TIME = 1000;
+
+export const LENGTH_DECODE_TIME_HASH = 3;
+
 export const levels = {
   'state-1': {
     type: `artist`,

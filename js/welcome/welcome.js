@@ -13,6 +13,11 @@ class WelcomeScreen {
     this.view.onClick = () => {
       App.changeLevel();
     };
+
+  }
+
+  onPlay() {
+    this.view.onPlay();
   }
 }
 

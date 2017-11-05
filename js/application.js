@@ -4,7 +4,7 @@ import GameScreen from './game/game.js';
 import ResultScreen from './result/resultScreen.js';
 import Loader from './loader.js';
 import adaptData from './data/data-adapter.js';
-import {audioArray, defaultState} from './data/Constants.js';
+import {audioArray, defaultState, ANSWERS_ARRAY_LENGTH, LENGTH_DECODE_TIME_HASH} from './data/Constants.js';
 import preload from './preload.js';
 
 const ControllerID = {
@@ -27,7 +27,7 @@ const loadGame = (data) => {
 const saveGame = (game) => {
   if (game) {
     const stringLevel = game.level.toString().length === 2 ? game.level : `0${game.level}`;
-    const stringTime = game.time.toString().length === 3 ? game.time : `${new Array(3 - game.time.toString().length).fill(`0`).join(``)}${game.time}`;
+    const stringTime = game.time.toString().length === LENGTH_DECODE_TIME_HASH ? game.time : `${new Array(LENGTH_DECODE_TIME_HASH - game.time.toString().length).fill(`0`).join(``)}${game.time}`;
     const stringPoints = game.points.toString().length === 2 ? game.points : `0${game.points}`;
 
     return `${game.lives}${stringLevel}${stringTime}${stringPoints}`;
@@ -43,10 +43,7 @@ const loadData = () => {
       .then(() => audioArray.map((item) => preload(item)))
       .then((songPromises) => Promise.all(songPromises))
       .then(() => {
-        const playButton = document.querySelector(`.main-play`);
-        const loadText = document.querySelector(`.main-stat`);
-        loadText.classList.add(`hide`);
-        playButton.classList.remove(`hide`);
+        welcomeScreen.onPlay();
       })
       .catch(window.console.error);
 };
@@ -64,7 +61,7 @@ export default class Application {
       const [id, data] = hashValue.split(`?`);
       Application.changeHash(id, data);
     };
-    window.onhashchange = hashChangeHandler;
+    window.addEventListener(`hashchange`, hashChangeHandler);
     hashChangeHandler();
   }
 
@@ -85,7 +82,7 @@ export default class Application {
   }
 
   static gameOver(game) {
-    if (game.points >= 0 && game.time > 0 && stats.length === 10) {
+    if (game.points >= 0 && game.time > 0 && stats.length === ANSWERS_ARRAY_LENGTH) {
       Loader.saveResult({answers: stats, lives: game.lives});
     }
     Application.routes[ControllerID.SCORE] = new ResultScreen(game);

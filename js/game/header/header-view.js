@@ -1,5 +1,5 @@
 import AbstractView from '../../abstractView.js';
-import {MAX_LIVES, GAME_TIME} from '../../data/Constants.js';
+import {MAX_LIVES, GAME_TIME, RADIUS} from '../../data/Constants.js';
 import {getTime, getRadius} from '../../data/data.js';
 
 export default class HeaderView extends AbstractView {
@@ -9,7 +9,7 @@ export default class HeaderView extends AbstractView {
   }
 
   get template() {
-    const parametersStroke = getRadius(this.game.time / GAME_TIME, 370);
+    const parametersStroke = getRadius(this.game.time / GAME_TIME, RADIUS);
     return `<svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
