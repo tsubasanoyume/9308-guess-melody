@@ -32,9 +32,9 @@ export default class LevelGenreView extends AbstractView {
     ${header.template}
 
     <div class="main-wrap">
-      <h2 class="title">${this.model.data[`state-` + this.level].question}</h2>
+      <h2 class="title">${this.model.data[`state-${this.level}`].question}</h2>
       <form class="genre">
-        ${answerNode(this.model.data[`state-` + this.level].answers)}
+        ${answerNode(this.model.data[`state-${this.level}`].answers)}
 
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
@@ -76,7 +76,7 @@ export default class LevelGenreView extends AbstractView {
     const answersContainer = this.element.querySelector(`.genre`);
 
     sendButton.disabled = true;
-    const rightAnswer = this.model.data[`state-` + this.level].genre;
+    const rightAnswer = this.model.data[`state-${this.level}`].genre;
     let countRightAnswers = 0;
     let arr = [];
 

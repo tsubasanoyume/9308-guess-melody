@@ -28,4 +28,11 @@ export default class WelcomeView extends AbstractView {
   onClick() {
 
   }
+
+  onPlay() {
+    const playButton = this.element.querySelector(`.main-play`);
+    const loadText = this.element.querySelector(`.main-stat`);
+    loadText.classList.add(`hide`);
+    playButton.classList.remove(`hide`);
+  }
 }

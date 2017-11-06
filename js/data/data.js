@@ -1,9 +1,11 @@
+import {MINUTE_IN_SECOND} from './Constants.js';
+
 export const stats = [];
 
 export const statistics = [];
 
 export const getLevel = (game, data) => {
-  return data[`state-` + game.level] || false;
+  return data[`state-${game.level}`] || false;
 };
 
 export const setNextLevel = (game) => {
@@ -21,9 +23,9 @@ export const setLives = (game, lives) => {
 };
 
 export const getTime = (time, type) => {
-  const value = type === `min` ? Math.trunc(time / 60) : Math.trunc(time % 60);
+  const value = type === `min` ? Math.trunc(time / MINUTE_IN_SECOND) : Math.trunc(time % MINUTE_IN_SECOND);
 
-  return value.toString().length > 1 ? value : `0` + value;
+  return value.toString().length > 1 ? value : `0${value}`;
 };
 
 export const setTime = (game, time) => {
