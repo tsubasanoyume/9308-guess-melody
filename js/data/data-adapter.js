@@ -1,27 +1,23 @@
 const audioArray = [];
 
 const generateAnswersArray = (answers, type) => {
-  const answerArray = [];
-
-  for (const answer of answers) {
+  return answers.map((answer) => {
     if (type === `artist`) {
-      answerArray.push({
+      return {
         imageSRC: answer.image.url,
         nameArtist: answer.title,
         isRight: answer.isCorrect
-      });
+      };
     } else {
       if (audioArray.indexOf(answer.src) === -1) {
         audioArray.push(answer.src);
       }
-      answerArray.push({
+      return {
         srcAudio: answer.src,
         genre: answer.genre
-      });
+      };
     }
-  }
-
-  return answerArray;
+  });
 };
 
 export default (data) => {
