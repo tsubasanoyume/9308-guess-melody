@@ -29,8 +29,6 @@ export const defaultState = Object.freeze({
   points: 0
 });
 
-export const audioArray = [];
-
 export const SERVER_URL = `https://es.dump.academy/guess-melody`;
 
 export const DEFAULT_USER = `id9308`;

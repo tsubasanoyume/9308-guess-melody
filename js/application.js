@@ -4,7 +4,7 @@ import GameScreen from './game/game.js';
 import ResultScreen from './result/resultScreen.js';
 import Loader from './loader.js';
 import adaptData from './data/data-adapter.js';
-import {audioArray, defaultState, ANSWERS_ARRAY_LENGTH, LENGTH_DECODE_TIME_HASH} from './data/Constants.js';
+import {defaultState, ANSWERS_ARRAY_LENGTH, LENGTH_DECODE_TIME_HASH} from './data/Constants.js';
 import preload from './preload.js';
 
 const ControllerID = {
@@ -39,8 +39,11 @@ const saveGame = (game) => {
 const loadData = () => {
   Loader.load()
       .then(adaptData)
-      .then((gameData) => Application.init(gameData))
-      .then(() => audioArray.map((item) => preload(item)))
+      .then((gameData) => {
+        Application.init(gameData.data);
+        return gameData.audio;
+      })
+      .then((audioArray) => audioArray.map((item) => preload(item)))
       .then((songPromises) => Promise.all(songPromises))
       .then(() => {
         welcomeScreen.onPlay();
